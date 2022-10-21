@@ -1,25 +1,26 @@
+import { ToDo } from './redux/interfaces'
+
+
 const baseUrl = "/api/todos";
-import useSWR from 'swr'
 
-const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
-
-const buildConfig = (config) => {
-	return {
-			...config,
-			headers: {
-					'Content-Type': 'application/json',
-			}
-	}
-};
-
-const makeRequest = (uri, config) => {
-	return fetch(uri, buildConfig(config))
-		.then(res => res.json())
-		.then(data => { return data })
+export const makeRequest = (method?: string, databody?: string) => {
+	console.log("databody", databody)
+	fetch(baseUrl, {
+	method: method,
+	body: JSON.stringify(databody),
+	headers: {"Content-type": "application/json; charset=UTF-8"}
+})
+.then(response => response.json()) 
+.then(json => console.log(json))
+.catch(err => console.log(err));
 }
 
-export const doGet = () => {
-	return makeRequest(baseUrl, {
-			method: "GET"
-	})
+
+export const doAdd = (addRec: ToDo) => {
+	return makeRequest("POST", addRec)
+}
+
+export const doDelete = (delRec: ToDo) => {
+	console.log(delRec)
+	return makeRequest("DELETE", delRec)
 }

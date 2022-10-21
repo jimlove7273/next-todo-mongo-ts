@@ -22,8 +22,6 @@ export default async function handler(
 			const todos = await db
 				.collection('todos')
 				.find({ "_id": ObjectId(id)})
-				// .sort({ metacritic: -1 })
-				// .limit(20)
 				.toArray();
 
 			res.status(200).json({ message: "GET Filtered Completed", todos })

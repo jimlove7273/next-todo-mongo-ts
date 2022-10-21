@@ -1,13 +1,23 @@
 import { useRef } from "react"
-import type { NextPage } from "next";
-import { useRouter } from "next/router";
+import { doAdd } from '../lib/todoService'
 
-const AddTodo: NextPage = () => {
+	// -- Reducer Start --------------------------------
+import { useDispatch } from 'react-redux'
+import { addTodo } from '../lib/redux/todoSlice'
+// ----------------------------------------------------------------
+
+type AddTodoProps = {
+	setShowAddTodo: (showhide: boolean) => void;
+}
+
+const AddTodo = ({setShowAddTodo}: AddTodoProps) => {
 
 	const todo = useRef()
 	const details = useRef()
 	const done = useRef()
-	const router = useRouter();
+
+	const dispatch = useDispatch()
+
 
 	const addToDoAction = (e: any) => {
 		e.preventDefault()
@@ -18,16 +28,15 @@ const AddTodo: NextPage = () => {
 			"done": done?.current?.value
 		}
 
-		fetch('/api/todos', {
-			method: "POST",
-			body: JSON.stringify(addRec),
-			headers: {"Content-type": "application/json; charset=UTF-8"}
-		})
-		.then(response => response.json()) 
-		.then(json => console.log(json))
-		.catch(err => console.log(err));
+		doAdd(addRec);
 
-		router.push("/");
+		dispatch( addTodo(addRec) )
+		todo.current.value = ''
+		details.current.value = ''
+		done.current.value = ''
+
+		setShowAddTodo(false)
+		
 	}
 
 	return (

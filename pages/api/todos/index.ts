@@ -32,7 +32,7 @@ export default async function handler(
 			if ( req.body ) {
 				const todos = await db
 					.collection('todos')
-					.insert(req.body)
+					.insertOne(req.body)
 
 					res.status(201).json({ message: "POST Method", todos })
 			} else {
@@ -41,11 +41,10 @@ export default async function handler(
 			break
 
 		case 'DELETE':
-			const { id } = req.body
 			if ( req.body ) {
 				const todos = await db
 					.collection('todos')
-					.deleteOne({ _id: new ObjectId(id) })
+					.deleteOne({ _id: new ObjectId(req.body) })
 
 					res.status(200).json({ message: "DELETE Completed", todos })
 			} else {
