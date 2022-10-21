@@ -34,7 +34,10 @@ export default async function handler(
 					.collection('todos')
 					.insertOne(req.body)
 
-					res.status(201).json({ message: "POST Method", todos })
+					res.status(201).json({
+						data: await db.collection("todos").findOne({ id: todos.insertedId }),
+						message: "Todo added successfully"
+					})
 			} else {
 				res.status(400).json({ message: "Bad information detected", todos })
 			}

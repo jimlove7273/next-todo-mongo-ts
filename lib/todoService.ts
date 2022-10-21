@@ -1,6 +1,3 @@
-import { ToDo } from './redux/interfaces'
-
-
 const baseUrl = "/api/todos";
 
 export const makeRequest = (method?: string, databody?: string) => {
@@ -16,11 +13,10 @@ export const makeRequest = (method?: string, databody?: string) => {
 }
 
 
-export const doAdd = (addRec: ToDo) => {
+export const doAdd = (addRec: string) => {
 	return makeRequest("POST", addRec)
 }
 
-export const doDelete = (delRec: ToDo) => {
-	console.log(delRec)
+export const doDelete = (delRec: string) => {
 	return makeRequest("DELETE", delRec)
 }

@@ -1,5 +1,6 @@
 import { useRef } from "react"
 import { doAdd } from '../lib/todoService'
+import { ObjectId } from 'bson'
 
 	// -- Reducer Start --------------------------------
 import { useDispatch } from 'react-redux'
@@ -23,6 +24,7 @@ const AddTodo = ({setShowAddTodo}: AddTodoProps) => {
 		e.preventDefault()
 
 		let addRec = {
+			"_id": new ObjectId(),
 			"heading": todo?.current?.value,
 			"description": details?.current?.value,
 			"done": done?.current?.value
@@ -31,6 +33,7 @@ const AddTodo = ({setShowAddTodo}: AddTodoProps) => {
 		doAdd(addRec);
 
 		dispatch( addTodo(addRec) )
+
 		todo.current.value = ''
 		details.current.value = ''
 		done.current.value = ''
