@@ -1,6 +1,5 @@
 import { useRef } from "react"
 import { doAdd } from '../lib/todoService'
-import { ObjectId } from 'bson'
 
 	// -- Reducer Start --------------------------------
 import { useDispatch } from 'react-redux'
@@ -24,7 +23,6 @@ const AddTodo = ({setShowAddTodo}: AddTodoProps) => {
 		e.preventDefault()
 
 		let addRec = {
-			"_id": new ObjectId(),
 			"heading": todo?.current?.value,
 			"description": details?.current?.value,
 			"done": done?.current?.value
@@ -39,7 +37,10 @@ const AddTodo = ({setShowAddTodo}: AddTodoProps) => {
 		done.current.value = ''
 
 		setShowAddTodo(false)
-		
+	}
+
+	const cancelToDoAction = () => {
+		setShowAddTodo(false)
 	}
 
 	return (
@@ -61,8 +62,9 @@ const AddTodo = ({setShowAddTodo}: AddTodoProps) => {
 							<option value="true">Yes</option>
 						</select>
 					</div>
-					<div className="flex items-center">
-						<button onClick={addToDoAction} className="bg-cyan-600 px-5 py-2 rounded-md text-stone-50">Submit</button>
+					<div className="flex flex-col items-center">
+						<button onClick={addToDoAction} className="bg-cyan-600 hover:bg-cyan-500 px-5 py-1 mb-1 rounded-md text-stone-50 text-sm">Submit</button>
+						<button onClick={cancelToDoAction} className="bg-red-500 hover:bg-red-400 px-5 py-1 rounded-md text-stone-50 text-sm">Cancel</button>
 					</div>
 				</div>
 			</form>

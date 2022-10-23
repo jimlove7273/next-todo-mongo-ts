@@ -1,34 +1,32 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Next-ToDo-Mongo-TS
+This project transforms a simple to-do app that you see everywhere into a more full-featured app that uses the following technologies or features:
 
-## Getting Started
+ - NextJS & SWR for data fetching
+ - Tailwind CSS
+ - Redux Toolkit
+ - MongoDB
+ - TypeScript
 
-First, run the development server:
+You will need a newer version of NodeJS, I use 17.4.0 (this may not be the latest version)
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+### File Structure
+**/components**
+addTodo.tsx - This component handles adding a to-do item
+editTodo.tsx - This component handles editing a to-do item
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**/lib**
+mongodb.ts - This sets up the connection to the MongoDB (use the commented code for JSX)
+todoServices.ts - This file acts like a middleware to connect NextJS app to the MongoDB via API
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+**/lib/redux**
+interface.ts - TypeScript types for Redux
+store.ts - Redux store
+todoSlice.ts - This file contains all the Redux reducers for the store
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+**/pages/api/todos**
+A couple of times are in here to interact with MongoDB.  This is where you can find actual MongoDB commands to add, update, change, or delete the data in the database.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Application Environment
 
-## Learn More
+ - Create a *.env.development* (where appropriate) to store the MongoDB connection information, you need the following keys: **MONGODB_URI** and **MONGODB_DB**
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

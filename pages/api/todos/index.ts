@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 
 type Data = {
   message: string
-	todos?: any[]
+	response: string
 }
 
 export default async function handler(
@@ -25,7 +25,7 @@ export default async function handler(
 				// .limit(20)
 				.toArray();
 
-			res.status(200).json({ message: "GET ALL Completed", todos })
+			res.status(200).json({ message: "GET ALL Completed", response: todos })
 			break
 
 		case 'POST':
@@ -35,11 +35,38 @@ export default async function handler(
 					.insertOne(req.body)
 
 					res.status(201).json({
-						data: await db.collection("todos").findOne({ id: todos.insertedId }),
+						response: await db.collection("todos").findOne({ id: todos.insertedId }),
 						message: "Todo added successfully"
 					})
 			} else {
-				res.status(400).json({ message: "Bad information detected", todos })
+				res.status(400).json({ message: "Bad information detected", response: todos })
+			}
+			break
+
+		case 'PUT':
+			if ( req.body ) {
+				console.log("req.body", req.body)
+				const { id, heading, description, done } = req.body
+				const todos = await db
+					.collection('todos')
+					.updateOne(
+						{ _id: ObjectId(id) },
+						{
+							$set: {
+								heading: heading,
+								description,
+								done
+							},
+						}
+					);
+
+					// Send a response
+					res.status(200).json({
+						response: await db.collection("todos").findOne({ _id: ObjectId(id) }),
+						message: "Todo updated successfully",
+					});
+			} else {
+				res.status(400).json({ message: "Bad information detected", response: todos })
 			}
 			break
 
@@ -49,9 +76,9 @@ export default async function handler(
 					.collection('todos')
 					.deleteOne({ _id: new ObjectId(req.body) })
 
-					res.status(200).json({ message: "DELETE Completed", todos })
+					res.status(200).json({ message: "DELETE Completed", response: todos })
 			} else {
-				res.status(400).json({ message: "Bad or Missing information", todos })
+				res.status(400).json({ message: "Bad or Missing information", response: todos })
 			}
 			break
 		

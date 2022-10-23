@@ -1,7 +1,6 @@
 const baseUrl = "/api/todos";
 
 export const makeRequest = (method?: string, databody?: string) => {
-	console.log("databody", databody)
 	fetch(baseUrl, {
 	method: method,
 	body: JSON.stringify(databody),
@@ -13,10 +12,14 @@ export const makeRequest = (method?: string, databody?: string) => {
 }
 
 
-export const doAdd = (addRec: string) => {
+export const doAdd = (addRec) => {
 	return makeRequest("POST", addRec)
 }
 
 export const doDelete = (delRec: string) => {
 	return makeRequest("DELETE", delRec)
+}
+
+export const doPut = (putRec) => {
+	return makeRequest("PUT", putRec)
 }
